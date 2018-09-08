@@ -1,10 +1,13 @@
-import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Http } from '@angular/http';
+import { ErrorHandler } from '../app.error-handler';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+
+import { Util } from '../Util';
 
 import { Restaurant } from './restaurant/restaurant.model';
-import { Util } from '../Util';
 
 @Injectable()
 export class RestaurantsService {
@@ -15,6 +18,7 @@ export class RestaurantsService {
   getRestaurants(): Observable<Restaurant[]> {
     return this.http.get( `${Util.url}/restaurants` )
       .map( response => response.json() )
+      .catch( ErrorHandler.handleError );
   }
 
 }
