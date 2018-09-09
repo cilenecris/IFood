@@ -26,4 +26,12 @@ export class RestaurantsService {
       .map(response => response.json())
       .catch(ErrorHandler.handleError);
   }
+
+  getReviewsOfRestaurants(id: string): Observable<any> {
+    return this.http
+      .get(`${Util.url}/restaurants/${id}/reviews`)
+      .map(response => response.json())
+      .catch(ErrorHandler.handleError);
+  }
+
 }
