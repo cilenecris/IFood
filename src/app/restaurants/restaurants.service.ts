@@ -8,6 +8,7 @@ import "rxjs/add/operator/catch";
 import { Util } from "../Util";
 
 import { Restaurant } from "./restaurant/restaurant.model";
+import { MenuItem } from "./../restaurant-detail/menu-item/menu-item.model";
 
 @Injectable()
 export class RestaurantsService {
@@ -34,4 +35,10 @@ export class RestaurantsService {
       .catch(ErrorHandler.handleError);
   }
 
+  getMenuOfRestaurant(id: string): Observable<MenuItem[]> {
+    return this.http
+      .get(`${Util.url}/restaurants/${id}/menu`)
+      .map(response => response.json())
+      .catch(ErrorHandler.handleError);
+  }
 }
