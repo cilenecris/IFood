@@ -8,6 +8,6 @@ import { AboutComponent } from './about/about.component';
 export const ROUTES: Routes = [
  { path: '', component: HomeComponent },
  { path: 'restaurants', component: RestaurantsComponent },
- { path: 'restaurants:id', component: RestaurantDetailComponent },
+ { path: 'restaurants/:id', component: RestaurantDetailComponent },
  { path: 'about', component: AboutComponent }
 ]
