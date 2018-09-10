@@ -2,9 +2,9 @@
 <div class="col-md-9 col-xs-12">
 
 <if-menu-item *ngFor="let item of menu | async" 
-  [menuItem]="item" (add)="addMenuItem($event)" ></if-menu-item>
+  [menuItem]="item" (add)="shoppingCart.addItem($event)" ></if-menu-item>
 
 </div>
 <div class="col-md-3 col-xs-12">
-  <if-shopping-cart></if-shopping-cart>
+  <if-shopping-cart #shoppingCart></if-shopping-cart>
 </div>
