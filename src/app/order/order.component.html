@@ -1,10 +1,11 @@
+<!--INICIO DO CONTEUDO-->
 <section class="content-header">
 </section>
 
 <section class="content">
   <section class="invoice">
 
-    <form #form="ngForm" novalidate>
+    <form [formGroup]="orderForm" novalidate>
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
@@ -13,30 +14,59 @@
         </div>
       </div>
 
-      <div class="row invoice-info">
-        <div class="col-xs-12">
-          <p class="lead">Endereço de Entrega:</p>
+      <div class="row">
+        <div class="col-xs-12 col-sm-9">
+          <p class="lead">Seus Dados:</p>
         </div>
+        <div class="col-xs-12 col-sm-3">
+          <span class="help-block pull-right has-error-block" *ngIf="orderForm.hasError('emailsNotMatch')"><i class="fa fa-remove"></i>
+            Email-s não conferem</span>
+        </div>
+
         <div class="col-sm-6 col-xs-12">
-          <if-input errorMessage="Campo obrigatório com no mín 5 caracteres" label="Endereço">
-            <input type="text" class="form-control" name="address" ngModel required minlength="5" autocomplete="off"
-              placeholder="Endereço">
+          <if-input errorMessage="Campo obrigatório e com 5 caracteres" label="Nome">
+            <input class="form-control" formControlName="name" placeholder="Nome" autocomplete="off">
           </if-input>
         </div>
+
         <div class="col-sm-3 col-xs-6">
-          <if-input errorMessage="Obrigatório e somente números" label="Número">
-            <input type="text" class="form-control" name="number" pattern="^[0-9]*$" ngModel required autocomplete="off"
-              placeholder="Número">
+          <if-input errorMessage="E-mail inválido" label="E-mail">
+            <input type="text" class="form-control" formControlName="email" placeholder="E-mail" autocomplete="off">
           </if-input>
         </div>
+
         <div class="col-sm-3 col-xs-6">
-          <if-input label="Complemento">
-            <input type="text" class="form-control" name="optionalAddress" ngModel autocomplete="off" placeholder="Complemento">
+          <if-input errorMessage="E-mail inválido" label="E-mail">
+            <input type="text" class="form-control" formControlName="emailConfirmation" placeholder="Confirmação do e-mail"
+              autocomplete="off">
           </if-input>
         </div>
 
       </div>
-      <!-- /.col -->
+
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="lead">Endereço de Entrega:</p>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <if-input errorMessage="Campo obrigatório e com 5 caracteres" label="Endereço">
+            <input class="form-control" formControlName="address" placeholder="Endereço" autocomplete="off">
+          </if-input>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <if-input errorMessage="Obrigatório e somente números" label="Número">
+            <input type="text" class="form-control" formControlName="number" placeholder="Número" autocomplete="off">
+          </if-input>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <if-input>
+            <input type="text" class="form-control" formControlName="optionalAddress" placeholder="Complemento">
+          </if-input>
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
 
       <!-- Table row -->
       <div class="row">
@@ -46,7 +76,6 @@
 
         <if-order-items [items]="cartItems()" (increaseQty)="increaseQty($event)" (decreaseQty)="decreaseQty($event)"
           (remove)="remove($event)"></if-order-items>
-
         <!-- /.col -->
       </div>
       <!-- /.row -->
@@ -57,9 +86,7 @@
           <p class="lead">Formas de Pagamento:</p>
 
           <div class="form-group">
-
-            <if-radio [options]="paymentOptions" name="paymentOption" ngModel required></if-radio>
-
+            <if-radio [options]="paymentOptions" formControlName="paymentOption"></if-radio>
           </div>
 
         </div>
@@ -68,7 +95,6 @@
           <p class="lead">Frete e Total:</p>
 
           <if-delivery-costs [delivery]="delivery" [itemsValue]="itemsValue()"></if-delivery-costs>
-
         </div>
         <!-- /.col -->
       </div>
@@ -77,11 +103,12 @@
 
     <div class="row">
       <div class="col-xs-12">
-        <button (click)="checkOrder(form.value)" class="btn btn-success pull-right" [disabled]="!form.valid || cartItems().length === 0"><i class="fa fa-credit-card"></i>
-          Concluir Pedido
+        <button (click)="checkOrder(orderForm.value)" class="btn btn-success pull-right" [disabled]="!orderForm.valid || cartItems().length === 0">
+          <i class="fa fa-credit-card"></i> Concluir Pedido
         </button>
       </div>
     </div>
 
   </section>
 </section>
+<!-- FIM DO CONTEUDO-->
