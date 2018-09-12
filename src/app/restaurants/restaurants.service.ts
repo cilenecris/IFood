@@ -14,11 +14,10 @@ import { MenuItem } from "./../restaurant-detail/menu-item/menu-item.model";
 export class RestaurantsService {
   constructor(private http: Http) {}
 
-  getRestaurants(): Observable<Restaurant[]> {
-    return this.http
-      .get(`${Util.url}/restaurants`)
+  getRestaurants(search?: string): Observable<Restaurant[]> {
+    return this.http.get(`${Util.url}/restaurants`, {params: {q: search}})
       .map(response => response.json())
-      .catch(ErrorHandler.handleError);
+      .catch(ErrorHandler.handleError)
   }
 
   getRestaurantsById(id: string): Observable<Restaurant> {
