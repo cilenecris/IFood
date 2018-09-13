@@ -7,13 +7,12 @@
   </h1>
 </section>
 
- <!-- barra de busca-->
- <div class="row">
+<!-- barra de busca-->
+<div class="row">
   <div class="col-xs-12 search-bar" [@toggleSearch]="searchBarState">
     <form [formGroup]="searchForm">
       <div class="form-group">
-          <input type="text" #iptSearch formControlName="searchControl"
-                 class="form-control box-search" placeholder="O que você está procurando?">
+        <input type="text" #iptSearch formControlName="searchControl" class="form-control box-search" placeholder="O que você está procurando?">
       </div>
     </form>
   </div>
@@ -24,6 +23,11 @@
   <div class="row">
     <div *ngFor="let restaurant of restaurants" class="col-sm-6 col-xs-12">
       <if-restaurant [restaurant]="restaurant"></if-restaurant>
+    </div>
+    <div *ngIf="restaurants?.length === 0" class="col-xs-12">
+      <p class="lead text-center">
+        Não foram encontrados itens para a sua busca.
+      </p>
     </div>
   </div>
 

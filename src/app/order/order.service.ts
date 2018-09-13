@@ -1,4 +1,4 @@
-import { Http, Headers, RequestOptions } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
@@ -11,7 +11,10 @@ import { Util } from "app/Util";
 
 @Injectable()
 export class OrderService {
-  constructor(private cartService: ShoppingCartService, private http: Http) {}
+  constructor(
+    private cartService: ShoppingCartService,
+    private http: HttpClient
+  ) {}
 
   itemsValue(): number {
     return this.cartService.total();
@@ -33,18 +36,13 @@ export class OrderService {
     this.cartService.removeItem(item);
   }
 
-  clear(){
+  clear() {
     this.cartService.clear();
   }
 
   checkOrder(order: Order): Observable<string> {
-    const headers = new Headers();
-    headers.append("content-type", "application/json");
     return this.http
-      .post(
-        `${Util.url}/orders`,
-        JSON.stringify(order),
-        new RequestOptions({ headers: headers }))
-      .map(response => response.json()).map(order => order.id);
+      .post<Order>(`${Util.url}/orders`, order)
+      .map(order => order.id);
   }
 }
