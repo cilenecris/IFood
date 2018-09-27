@@ -1,10 +1,9 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 import { LoginService } from './login.service';
 import { NotificationService } from './../../shared/messages/notification.service';
-
-import { User } from './user.model';
 
 @Component({
   selector: 'if-login',
@@ -14,11 +13,14 @@ import { User } from './user.model';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  navigateTo: string;
 
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -26,13 +28,18 @@ export class LoginComponent implements OnInit {
       email: this.fb.control('', [ Validators.required, Validators.email ] ),
       password: this.fb.control('', [Validators.required]),
     })
+    this.navigateTo = this.activatedRoute.snapshot.params['to'] || '/';
   }
 
   login() {
     this.loginService.login( this.loginForm.value.email, 
                              this.loginForm.value.password )
-                     .subscribe( user => this.notificationService.notify( `Bem vindo, ${ user.name }` ),
+                     .subscribe( user => 
+                                 this.notificationService.notify( `Bem vindo, ${ user.name }` ),
                                  response => // Tipo HttpErrorResponse
-                                 this.notificationService.notify( response.error.message ) );
+                                 this.notificationService.notify( response.error.message ),
+                                 () => {
+                                   this.router.navigate([this.navigateTo]);
+                                 });
   }
 }

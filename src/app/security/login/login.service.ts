@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -12,7 +13,8 @@ export class LoginService {
 
     user : User;
 
-    constructor( private http: HttpClient ) {}
+    constructor( private http: HttpClient,
+                 private route: Router ) {}
 
     isLoggedIn(): boolean {
         return this.user !== undefined;
@@ -22,5 +24,9 @@ export class LoginService {
         return this.http.post<User>(`${Util.url}/login`, 
                                 { email: email, password: password })
                                 .do( user => this.user = user );
+    }
+
+    handleLogin( path?: string ) {
+        this.route.navigate( ['/login', path ] );
     }
 }
