@@ -1,6 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { LoginService } from './../security/login/login.service';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import "rxjs/add/operator/map";
 
 import { ShoppingCartService } from "./../restaurant-detail/shopping-cart/shopping-cart.service";
@@ -13,7 +14,8 @@ import { Util } from "app/Util";
 export class OrderService {
   constructor(
     private cartService: ShoppingCartService,
-    private http: HttpClient
+    private http: HttpClient,
+    private loginService: LoginService
   ) {}
 
   itemsValue(): number {
@@ -41,8 +43,12 @@ export class OrderService {
   }
 
   checkOrder(order: Order): Observable<string> {
+    let headers = new HttpHeaders();
+    if (this.loginService.isLoggedIn()) {
+      headers = headers.set('Authorization', `Bearer ${ this.loginService.user.accessToken }`)
+    }
     return this.http
-      .post<Order>(`${Util.url}/orders`, order)
+      .post<Order>(`${Util.url}/orders`, order, { headers: headers})
       .map(order => order.id);
   }
 }

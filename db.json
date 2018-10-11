@@ -370,5 +370,54 @@
       "restaurantId": "tasty-treats"
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "name": "Lucas",
+      "email": "oliveira@lucas.com",
+      "emailConfirmation": "oliveira@lucas.com",
+      "address": "vilda fer",
+      "number": "44",
+      "optionalAddress": "4",
+      "paymentOption": "MON",
+      "orderItems": [
+        {
+          "quantity": 1,
+          "menuId": "sunday"
+        }
+      ],
+      "id": 1
+    },
+    {
+      "name": "lucas",
+      "email": "oliveira@lucas.com",
+      "emailConfirmation": "oliveira@lucas.com",
+      "address": "vilda fer",
+      "number": "123",
+      "optionalAddress": "12",
+      "paymentOption": "DEB",
+      "orderItems": [
+        {
+          "quantity": 2,
+          "menuId": "capp"
+        }
+      ],
+      "id": 2
+    },
+    {
+      "name": "luacty",
+      "email": "oliveira@lucas.com",
+      "emailConfirmation": "oliveira@lucas.com",
+      "address": "jkjkk",
+      "number": "123",
+      "optionalAddress": "",
+      "paymentOption": "MON",
+      "orderItems": [
+        {
+          "quantity": 1,
+          "menuId": "cup-cake"
+        }
+      ],
+      "id": 3
+    }
+  ]
 }

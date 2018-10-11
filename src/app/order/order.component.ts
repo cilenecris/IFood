@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { RadioOption } from "../shared/radio/radio-option.model";
 import { OrderService } from "./order.service";
 
+import 'rxjs/add/operator/do';
+
 import { CartItem } from "../restaurant-detail/shopping-cart/cart-item.model";
 import { Order, OrderItem } from "./order.model";
 
@@ -13,10 +15,9 @@ import { Order, OrderItem } from "./order.model";
   templateUrl: "./order.component.html"
 })
 export class OrderComponent implements OnInit {
-
   orderForm: FormGroup
-
   delivery: number = 8;
+  orderId: string;
 
   emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 
@@ -78,15 +79,20 @@ export class OrderComponent implements OnInit {
     this.orderService.remove(item);
   }
 
+  isOrderCompleted(): boolean {
+    return this.orderId !== undefined;
+  }
   checkOrder(order: Order) {
-    order.orderItems = this.cartItems().map(
-      (item: CartItem) => new OrderItem(item.quantity, item.menuItem.id)
-    );
-    this.orderService.checkOrder(order).subscribe((orderId: string) => {
+    order.orderItems = this.cartItems()
+    .map((item: CartItem) => new OrderItem(item.quantity, item.menuItem.id));
+
+    this.orderService.checkOrder(order)
+    .do((orderId: string ) => {
+      this.orderId = orderId;
+    })
+    .subscribe( (orderId: string) => {
       this.router.navigate(['/order-summary']);
-      console.log(`Compra concluída: ${orderId}`);
       this.orderService.clear();
     });
-    console.log(order);
   }
 }
