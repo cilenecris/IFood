@@ -1,6 +1,6 @@
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/do';
@@ -27,6 +27,6 @@ export class LoginService {
     }
 
     handleLogin( path?: string ) {
-        this.route.navigate( ['/login', path ] );
+        this.route.navigate( ['/login', btoa( path ) ] );
     }
 }
