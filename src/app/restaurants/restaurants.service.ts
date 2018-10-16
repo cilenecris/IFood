@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { ErrorHandler } from "../app.error-handler";
+
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 
